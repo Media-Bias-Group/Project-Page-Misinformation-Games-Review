@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="ga-project-slug" content="LLMExplanations-ProjectPage">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FQN107WVK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    const host = window.location.hostname;
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const projectSlug =
+      document.querySelector('meta[name="ga-project-slug"]')?.content ||
+      pathParts[0] ||
+      host;
+
+    gtag('config', 'G-9FQN107WVK', {
+      page_location: window.location.href,
+      page_title: document.title,
+      project_slug: projectSlug
+    });
+  </script>
+  
+  <!-- Edit project metadata here. The small script below fills repeated fields. -->
+  <script>
+    const PROJECT = {
+      title: "Plausibility Machines: How LLM-Generated Explanations Shape Media Bias Perception",
+      siteName: "Media Bias Group",
+      siteUrl: "https://media-bias-group.github.io/LLMExplanations_ProjectPage/",
+      status: "Under Review",
+      venue: "Under Review",
+      year: "2026",
+      datePublished: "2026-03-04",
+      previewImage: "static/images/TeaserImageLLM.png",
+      pdfUrl: "https://media-bias-group.github.io/LLMExplanations_ProjectPage/static/pdfs/paper.pdf",
+      bibtex: `@article{Wessel2026Plausibility,
+  title={Plausibility Machines: How LLM-Generated Explanations Shape Media Bias Perception},
+  author={Martin Wessel and Smi Hinterreiter and Karsten Donnay and Jürgen Pfeffer and Marc Erich Latoschik and Timo Spinde},
+  journal={Under Review},
+  year={2026},
+  url={https://media-bias-group.github.io/LLMExplanations_ProjectPage/}
+}`,
+      themeColor: "#2563eb",
+      keywords: ["media bias", "large language models", "explainability", "media literacy", "perception"],
+      tags: ["LLM", "Bias perception"],
+      description: [
+        "Explanations changed how people perceive bias.",
+        "LMM explanations influenced peoples' perceptions more.",
+        "Bias ratings were more accurate after explanation.",
+        "Exception: People perceived more bias than there was after they read LLM explanations of articles with no to little bias.",
+        "LLM and prompts extremely important: If prompted to identify bias, LLM will identify bias, no matter how little bias there is."
+      ],
+      abstract: [
+        "The prevalence of bias in news media can undermine democratic processes by reinforcing partisan divides, eroding public trust, and influencing electoral results.",
+        "Even though consumers often overlook biases, interventions to help audiences recognize them remain limited.",
+        "Large language models (LLMs) show promise for generating explanations to disclose and mitigate bias in news articles, but their effectiveness remains untested.",
+        "We conduct a randomized controlled trial with U.S. adults (n=504) reading a news article to measure whether LLM-generated explanations, presented without source attribution, can change audiences’ perception of media bias, and how perception changes compare to human-written explanations and no-explanation controls.",
+        "We find that explanations significantly change bias perception compared to controls.",
+        "However, only LLM explanations increase bias perception significantly.",
+        "Further, political alignment with an article increases bias perception after LLM explanations but not after human explanations.",
+        "Descriptively, LLM explanations produce false positives on low-bias content and reduce participant-expert alignment, whereas human explanations have more conservative patterns but are overall more accurate.",
+        "We discuss the potential of LLMs in media literacy interventions and their role as “plausibility machines” that tend to produce false positives by overidentifying bias, leading neutral content to be perceived as biased."
+      ],
+      highlights: [
+        "LLMs like ChatGPT could explain bias to news readers, but are the explanations as effective as expert explanations?",
+        "Study compared how people rate bias of an article before + after reading a text explaining the bias (either written by expert or LLM)",
+        "Explanations changed how people perceive bias",
+        "LMM explanations influenced peoples' perceptions more",
+        "Bias ratings were more accurate after explanation",
+        "Exception: People perceived more bias than there was after they read LLM explanations of articles with no to little bias",
+        "LLM and prompts extremely important: If prompted to identify bias, LLM will identify bias, no matter how little bias there is"
+      ],
+      authors: [
+        {name: "Martin Wessel", url: "https://www.linkedin.com/in/martinpwessel/", affiliation: "Technical University of Munich, Germany", equalContribution: true},
+        {name: "Smi Hinterreiter", url: "https://www.linkedin.com/in/smi-hinterreiter/", affiliation: "University of Würzburg, Germany", equalContribution: true},
+        {name: "Karsten Donnay", url: "https://www.linkedin.com/in/karsten-donnay/", affiliation: "University of Zurich, Switzerland"},
+        {name: "Jürgen Pfeffer", url: "https://www.linkedin.com/in/jürgen-pfeffer-517423244/", affiliation: "Technical University of Munich, Germany"},
+        {name: "Marc Erich Latoschik", url: "https://hci.uni-wuerzburg.de/people/marc-latoschik/", affiliation: "University of Würzburg, Germany"},
+        {name: "Timo Spinde", url: "https://www.linkedin.com/in/timo-spinde/?locale=de", affiliation: "National Institute of Informatics, Japan"}
+      ]
+    };
+
+    const projectText = (value) => Array.isArray(value) ? value.join(" ") : value;
+    const projectAuthors = () => PROJECT.authors.map(author => author.name).join(", ");
+    const projectUrl = (path) => path.startsWith("http") ? path : new URL(path, PROJECT.siteUrl).href;
+    const projectEscape = (value) => String(value).replace(/[&<>"']/g, character => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    }[character]));
+    const projectPageTitle = () => `${PROJECT.title} - ${projectAuthors()} | Paper Summary`;
+    const projectBibTeX = () => PROJECT.bibtex;
+    const projectMeta = (type, name, content) =>
+      `<meta ${type}="${projectEscape(name)}" content="${projectEscape(content)}">`;
+
+    function writeProjectHead() {
+      const description = projectText(PROJECT.description);
+      const image = projectUrl(PROJECT.previewImage);
+      const imageAlt = `${PROJECT.title} - Research Preview`;
+      const articleData = {
+        "@context": "https://schema.org",
+        "@type": "ScholarlyArticle",
+        "headline": PROJECT.title,
+        "description": description,
+        "author": PROJECT.authors.map(author => ({
+          "@type": "Person",
+          "name": author.name,
+          "affiliation": {"@type": "Organization", "name": author.affiliation}
+        })),
+        "datePublished": PROJECT.datePublished,
+        "publisher": {"@type": "Organization", "name": PROJECT.venue},
+        "url": PROJECT.siteUrl,
+        "image": image,
+        "keywords": PROJECT.keywords,
+        "abstract": projectText(PROJECT.abstract),
+        "citation": projectBibTeX(),
+        "isAccessibleForFree": true,
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "mainEntity": {"@type": "WebPage", "@id": PROJECT.siteUrl},
+        "about": PROJECT.keywords.map(name => ({"@type": "Thing", "name": name}))
+      };
+      const organizationData = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Media Bias Research Group",
+        "url": "https://media-bias-research.org",
+        "logo": projectUrl("static/images/favicon.ico"),
+        "sameAs": ["https://github.com/media-bias-group"]
+      };
+      const tags = [
+        projectMeta("name", "title", projectPageTitle()),
+        projectMeta("name", "description", description),
+        projectMeta("name", "keywords", PROJECT.keywords.join(", ")),
+        projectMeta("name", "author", projectAuthors()),
+        projectMeta("name", "robots", "index, follow"),
+        projectMeta("name", "language", "English"),
+        projectMeta("property", "og:type", "article"),
+        projectMeta("property", "og:site_name", PROJECT.siteName),
+        projectMeta("property", "og:title", PROJECT.title),
+        projectMeta("property", "og:description", description),
+        projectMeta("property", "og:url", PROJECT.siteUrl),
+        projectMeta("property", "og:image", image),
+        projectMeta("property", "og:image:width", "1200"),
+        projectMeta("property", "og:image:height", "630"),
+        projectMeta("property", "og:image:alt", imageAlt),
+        projectMeta("property", "article:published_time", `${PROJECT.datePublished}T00:00:00.000Z`),
+        ...PROJECT.authors.map(author => projectMeta("property", "article:author", author.name)),
+        projectMeta("property", "article:section", "Research"),
+        ...PROJECT.tags.map(tag => projectMeta("property", "article:tag", tag)),
+        projectMeta("name", "twitter:card", "summary_large_image"),
+        projectMeta("name", "twitter:title", PROJECT.title),
+        projectMeta("name", "twitter:description", description),
+        projectMeta("name", "twitter:image", image),
+        projectMeta("name", "twitter:image:alt", imageAlt),
+        projectMeta("name", "citation_title", PROJECT.title),
+        ...PROJECT.authors.map(author => projectMeta("name", "citation_author", author.name)),
+        projectMeta("name", "citation_publication_date", PROJECT.year),
+        projectMeta("name", "citation_conference_title", PROJECT.venue),
+        projectMeta("name", "citation_pdf_url", PROJECT.pdfUrl),
+        projectMeta("name", "theme-color", PROJECT.themeColor),
+        projectMeta("name", "msapplication-TileColor", PROJECT.themeColor),
+        projectMeta("name", "apple-mobile-web-app-capable", "yes"),
+        projectMeta("name", "apple-mobile-web-app-status-bar-style", "default"),
+        `<title>${projectEscape(projectPageTitle())}</title>`,
+        `<script type="application/ld+json">${JSON.stringify(articleData)}</scr` + `ipt>`,
+        `<script type="application/ld+json">${JSON.stringify(organizationData)}</scr` + `ipt>`
+      ];
+      document.write(tags.join("\n"));
+    }
+
+    function renderProjectMetadata() {
+      document.querySelectorAll("[data-project-title]").forEach(element => {
+        element.textContent = PROJECT.title;
+      });
+      document.querySelectorAll("[data-project-status]").forEach(element => {
+        element.textContent = PROJECT.status;
+      });
+      document.querySelectorAll("[data-project-year]").forEach(element => {
+        element.textContent = PROJECT.year;
+      });
+      document.querySelectorAll("[data-project-abstract]").forEach(element => {
+        element.textContent = projectText(PROJECT.abstract);
+      });
+      document.querySelectorAll("[data-project-bibtex]").forEach(element => {
+        element.textContent = projectBibTeX();
+      });
+      document.querySelectorAll("[data-equal-contribution-note]").forEach(element => {
+        element.hidden = !PROJECT.authors.some(author => author.equalContribution);
+      });
+
+      const authors = document.querySelector("[data-project-authors]");
+      if (authors) {
+        authors.innerHTML = PROJECT.authors.map((author, index) => {
+          const comma = index < PROJECT.authors.length - 1 ? "," : "";
+          const equal = author.equalContribution ? "<sup>*</sup>" : "";
+          const name = projectEscape(author.name);
+          const linkedName = author.url ? `<a href="${projectEscape(author.url)}" target="_blank">${name}</a>` : name;
+          return `<span class="author-block">${linkedName}${equal}${comma}</span>`;
+        }).join("\n");
+      }
+
+      const highlights = document.querySelector("[data-project-highlights]");
+      if (highlights) {
+        highlights.innerHTML = PROJECT.highlights.map(item => `<li>${projectEscape(item)}</li>`).join("\n");
+      }
+    }
+
+    writeProjectHead();
+    document.addEventListener("DOMContentLoaded", renderProjectMetadata);
+  </script>
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+  
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  
+</head>
+<body>
+
+  <!-- Top-left logo button -->
+  <a href="https://media-bias-research.org/research/" class="mbg-logo-btn" title="Back to Media Bias Research">
+    <img src="static/images/MediaBiasGroup_Logo_typobold-scaled-scaled.webp" alt="Media Bias Group Logo" class="mbg-logo-img"/>
+  </a>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- More Works Dropdown -->
+  <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
+      <i class="fas fa-flask"></i>
+      More Works
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>More Related Work from Our Lab</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+        <!-- TODO: Replace with your lab's related works -->
+        <a href="https://media-bias-research.org/do-you-think-its-biased-how-to-measure-the-perception-of-media-bias/" class="work-item" target="_blank">
+          <div class="work-info">
+            <!-- TODO: Replace with actual paper title -->
+            <h5>Do You Think It’s Biased? How to Measure the Perception of Media Bias</h5>
+            <!-- TODO: Replace with brief description -->
+            <p>We developed a questionnaire to assess readers’ perceptions of media bias through research, reduction, and validation.</p>
+            <!-- TODO: Replace with venue and year -->
+            <span class="work-venue"> Proceedings of the ACM/IEEE Joint Conference on Digital Libraries (JCDL) 2021</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <!-- TODO: Add more related works or remove extra items -->
+        <a href="https://media-bias-research.org/portfolio/psychology-human-computer-interaction/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Psychology & Human-Computer Interaction</h5>
+            <p>From Bias to Behavior.</p>
+            <span class="work-venue">Research Project Summary</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://media-bias-research.org/media-bias-101-a-very-short-introduction-to-the-taxonomy/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Media Bias 101: A Very Short Introduction to the Taxonomy</h5>
+            <p>The Media Bias Taxonomy aims to clarify the various subtypes of media bias and standardize the interdisciplinary terminology used to describe them.</p>
+            <span class="work-venue">Research Project Summary</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+    <button class="more-works-btn" onclick="window.location.href='https://media-bias-research.org/research/'" title="Copy BibTeX to clipboard">
+          <i class="fas fa-arrow-left"></i>
+          <span class="copy-text">Back to Website</span>
+        </button>
+  </div>
+
+  <!-- Image -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+       <div class="item">
+        <!-- TODO: Replace with your research result images -->
+        <img src="static/images/TeaserImageLLM.png" style="width: 65%; margin: 0 auto; display: block;" alt="First research result visualization" loading="lazy"/>
+        <!-- TODO: Replace with description of this result -->
+       <!--  <h2 class="subtitle has-text-centered">
+          Participant reading an explanation after reading a news article. The explanation is either generated by an LLM or written by a human expert.
+        </h2> -->
+        </div>
+  </div>
+</div>
+</section>
+<!-- End image -->
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body" style="padding-top: 0;">
+      <div class="container is-max-desktop" style="max-width: 1080px;">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title" data-project-title></h1>
+            <div class="is-size-5 publication-authors" data-project-authors></div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block"><span data-project-status></span><br><span data-project-year></span></span>
+                    <span class="eql-cntrb" data-equal-contribution-note><small><br><sup>*</sup>Equal Contribution</small></span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- TODO: Update with your arXiv paper ID 
+                      <span class="link-block">
+                        <a href="" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>-->
+
+                    <!-- TODO: Add your supplementary material PDF or remove this section -->
+                    <span class="link-block">
+                      <a href="https://anonymous.4open.science/r/Plausibility_Machines-5819/README.md" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Supplementary</span>
+                    </a>
+                  </span> 
+
+                  <span class="link-block">
+                  <a href="https://osf.io/s7w24/overview?view_only=b774c81ea2274f9e831717ced8fe9d55" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-atom"></i>
+                  </span>
+                  <span>OSF PreReg</span>
+                </a>
+              </span>
+
+                  <!-- TODO: Replace with your GitHub repository URL 
+                  <span class="link-block">
+                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span> -->
+
+                <!-- TODO: Update with your arXiv paper ID 
+                <span class="link-block">
+                  <a href="" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Highlights -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Highlights</h2>
+        <div class="content has-text-justified">
+          <ul data-project-highlights></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper Highlights -->
+
+
+
+
+
+<!-- Image carousel -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+       <div class="item">
+        <!-- TODO: Replace with your research result images -->
+        <img src="static/images/example.png" alt="First research result visualization" loading="lazy"/>
+        <!-- TODO: Replace with description of this result -->
+        <h2 class="subtitle has-text-centered">
+          Example of an explanation shown in the study.
+        </h2>
+       </div>
+       <div class="item">
+        <!-- TODO: Replace with your research result images -->
+        <img src="static/images/process.png" alt="First research result visualization" loading="lazy" style="width: 50%; margin: 0 auto; display: block;"/>
+        <!-- TODO: Replace with description of this result -->
+        <h2 class="subtitle has-text-centered">
+          Process of the study.
+        </h2>
+  </div>
+  <div class="item">
+        <!-- TODO: Replace with your research result images -->
+        <img src="static/images/Alignment.png" alt="First research result visualization" loading="lazy"/>
+        <!-- TODO: Replace with description of this result -->
+        <h2 class="subtitle has-text-centered">
+          Bar chart showing participant-expert alignment in bias perception after reading LLM vs. human explanations vs. control. Alignment increases after explanations but is lower after reading LLM explanations on low bias articles.
+        </h2>
+  </div>
+</div>
+</div>
+</div>
+</section>
+<!-- End image carousel -->
+
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p data-project-abstract></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code data-project-bibtex></code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
